@@ -1,0 +1,7 @@
+{
+  "name": "Study-Manager",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
