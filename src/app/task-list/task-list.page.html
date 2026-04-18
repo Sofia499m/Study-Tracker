@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Task-List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <div>
+      <ion-list>
+      @for (task of tasks; track task.id) {
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+          <ion-fab-button (click)="addTask()">
+            <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+
+        <ion-item (click)="stepToggleExpand(task.id)" button detail="false">
+          <ion-label>
+            <h2>{{task.title}}</h2>
+            <p>Due: {{task.dueDate | date:'EEE, MMM d'}}</p>
+            <p>Dedication: {{task.dedication}}</p>
+          </ion-label>
+          <ion-badge slot="end" [color]="priorityColor(task.priority)">
+            {{ task.priority }}
+          </ion-badge>
+          <ion-icon slot="end" [name]="expandedId === task.id ? 'chevron-up-outline' : 'chevron-down-outline'">
+          </ion-icon>
+          <ion-icon name="pencil-outline" slot="end" (click)="goToEdit(task); $event.stopPropagation()">
+          </ion-icon>
+          <ion-icon name="trash-outline" slot="end" (click)="deleteTask(task.id); $event.stopPropagation()">
+          </ion-icon>
+        </ion-item>
+
+      @if (expandedId === task.id) {
+      <ion-item>
+          <ion-label>
+            <div>
+              <small>Progress</small>
+              <small>{{ completeCount }} / {{ task.steps.length }}</small>
+            </div>
+            <ion-progress-bar [value]="progressCount(task)">
+            </ion-progress-bar>
+          </ion-label>
+      </ion-item>
+
+        @for (step of task.steps; track step.id) {
+        <ion-item>
+          <ion-checkbox slot="start" [(ngModel)]="step.completed" (ionChange)="stepToggle(task)">
+          </ion-checkbox>
+          <ion-label>
+            {{ step.description }}
+          </ion-label>
+        </ion-item>
+        }
+      }
+    }@empty{
+      <div class ="empty-state">
+        <h2>No tasks yet</h2>
+        <p>You have nothing to to, Please add task</p>
+        <ion-button (click)="addTask()">
+          <ion-icon name="add-outline"></ion-icon>
+          </ion-button>
+        </div>
+      }
+      </ion-list>
+    </div>
+  </ion-card>
+</ion-content>

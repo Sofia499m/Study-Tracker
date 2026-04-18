@@ -1,0 +1,90 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+     <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Calendar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="calendar-content">
+  <ion-card class="card high">
+    <h1 class="header">High Priority</h1>
+  <ion-datetime presentation="date" [highlightedDates]="highDates"
+    (ionChange)="onDateChange($event,'high')"></ion-datetime>
+      <div class="task-section">
+        @if (selectedPriority === 'high' && selectedDate) {
+            <h4>Due Task</h4>
+            <ion-badge color="danger">
+              {{ taskForSelectedDate.length }} task{{ taskForSelectedDate.length !== 1 ? 's' : '' }}
+            </ion-badge>
+            @for (task of taskForSelectedDate; track task.id) {
+              <ion-item>
+                <ion-label>
+                  <h2>{{ $index + 1 }}. {{ task.title }}</h2>
+                  <p>Dedication: {{ task.dedication }} </p>
+                </ion-label>
+              </ion-item>
+            } @empty {
+              <p class="no-tasks">No tasks this day</p>
+            }
+          }@else{
+            <p>Tap day to see Tasks</p>
+          }
+        </div>
+  </ion-card>
+
+  <ion-card class="card medium">
+    <h1 class="header">Medium Priority</h1>
+    <ion-datetime presentation="date" [highlightedDates]="mediumDates"
+    (ionChange)="onDateChange($event,'medium')"></ion-datetime>
+    <div>
+      @if (selectedPriority === 'medium' && selectedDate) {
+          <h4>Due Task</h4>
+          <ion-badge color="warning">
+            {{ taskForSelectedDate.length }} task{{ taskForSelectedDate.length !== 1 ? 's' : '' }}
+          </ion-badge>
+          @for (task of taskForSelectedDate; track task.id) {
+            <ion-item>
+              <ion-label>
+                <h2>{{ $index + 1 }}. {{ task.title }}</h2>
+                <p>Dedication: {{ task.dedication }} </p>
+              </ion-label>
+            </ion-item>
+          } @empty {
+            <p class="no-tasks">No tasks this day</p>
+          }
+        }@else{
+          <p>Tap day to see Tasks</p>
+        }
+      </div>
+  </ion-card>
+
+  <ion-card class="card low">
+    <h1 class="header">Low Priority</h1>
+  <ion-datetime presentation="date" [highlightedDates]="lowDates"
+  (ionChange)="onDateChange($event,'low')"></ion-datetime>
+  <div>
+    @if (selectedPriority === 'low' && selectedDate) {
+        <h4>Due Task</h4>
+        <ion-badge color="success">
+          {{ taskForSelectedDate.length }} task{{ taskForSelectedDate.length !== 1 ? 's' : '' }}
+        </ion-badge>
+        @for (task of taskForSelectedDate; track task.id) {
+          <ion-item>
+            <ion-label>
+              <h2>{{ $index + 1 }}. {{ task.title }}</h2>
+              <p>Dedication: {{ task.dedication }} </p>
+            </ion-label>
+          </ion-item>
+        } @empty {
+          <p class="no-tasks">No tasks this day</p>
+        }
+      }@else{
+        <p>Tap day to see Tasks</p>
+      }
+    </div>
+  </ion-card>
+  </div>
+</ion-content>

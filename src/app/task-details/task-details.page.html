@@ -1,0 +1,88 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>{{ isEditMode ? 'Edit Task' : 'New Task' }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/Task-List"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card-content>
+    <div>
+      <ion-item>
+        <label>Title: </label>
+        <ion-input aria-label="title" aria-placeholder="Title Task" [(ngModel)]="task.title">
+        </ion-input>
+      </ion-item>
+
+      <ion-list>
+        <ion-item>
+          <ion-select label="Priority" placeholder="Select" [(ngModel)]="task.priority">
+            <ion-select-option value="low">Low</ion-select-option>
+            <ion-select-option value="medium">Medium</ion-select-option>
+            <ion-select-option value="high">High</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      
+      <ion-item (click)="showDate = !showDate" button detail="false">
+        <ion-label>Date: </ion-label>
+        <ion-text slot="end">{{ task.dueDate ? (task.dueDate | date:'mediumDate') : 'Select' }}</ion-text>
+      </ion-item>
+      @if (showDate) {
+        <ion-datetime
+          presentation="date"
+          [value]="task.dueDate"
+          (ionChange)="onDateChange($event)">
+        </ion-datetime>
+      }
+
+      <ion-list>
+        <ion-item>
+          <ion-select label="Daily Dedication Time: " placeholder="Select" [(ngModel)]="task.dedication">
+            <ion-select-option value="30 min">30 min</ion-select-option>
+            <ion-select-option value="1 hour">1 hour</ion-select-option>
+            <ion-select-option value="1h 30min">1h 30min</ion-select-option>
+            <ion-select-option value="2 hour">2 hour</ion-select-option>
+            <ion-select-option value="2h 30min">2h 30min</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-item>
+
+        <ion-label>To do list</ion-label>
+        <ion-button slot="end" fill="clear" (click)="toggleInput()">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-list>
+        @for (item of task.steps; track item.id) {
+        <ion-item>
+          <ion-label>{{ item.description }}</ion-label>
+          <ion-button slot="end" fill="clear" color="danger" (click)="removeToDoItem(item.id)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+        }
+      </ion-list>
+
+      @if (showNewToDoInput) {
+      <div class="add-todo">
+        <ion-item>
+          <ion-input placeholder="New step..." [(ngModel)]="newStepsDescription">
+          </ion-input>
+          <ion-button (click)="AddToDo()">
+            Add
+          </ion-button>
+        </ion-item>
+      </div>
+      }
+    </div>
+  </ion-card-content>
+  <div>
+    <ion-button (click)="save()">Save Task</ion-button>
+  </div>
+</ion-content>

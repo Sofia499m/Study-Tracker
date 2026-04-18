@@ -1,0 +1,78 @@
+ion-content {
+    --background: #f4f5f8;
+}
+.calendat-content{
+    display: grid;
+    grid-template-columns: 1fr;          
+    gap: 16px;
+    padding: 16px;
+
+    @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    }
+}
+.card {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+    &.high {
+        border-top: 4px solid var(--ion-color-danger);
+    }
+    &.medium {
+        border-top: 4px solid var(--ion-color-warning);
+    }
+    &.low {
+        border-top: 4px solid var(--ion-color-success);
+    }
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px 0;
+    }
+}
+ion-datetime {
+    --background: transparent;
+    border-radius: 12px;
+    width: 100%;
+}
+.task-section {
+    padding: 8px 16px 16px;
+
+    .task-count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+
+    h4 {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0;
+        color: var(--ion-color-medium);
+    }
+    }
+}
+ion-item {
+    --border-radius: 10px;
+    --padding-start: 12px;
+    margin-bottom: 6px;
+    border-radius: 10px;
+
+    h2 {
+    font-size: 14px;
+    font-weight: 500;
+    }
+
+    p {
+    font-size: 12px;
+    color: var(--ion-color-medium);
+    }
+}
+.no-tasks {
+    text-align: center;
+    padding: 12px;
+    color: var(--ion-color-medium);
+    font-size: 13px;
+}
