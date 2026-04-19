@@ -76,7 +76,8 @@ export class TaskDetailsPage implements OnInit {
       dedication: this.task.dedication,
       dueDate: this.task.dueDate,
       priority: this.task.priority,
-      steps: this.task.steps
+      steps: this.task.steps,
+      completed: false
     }
     await this.taskService.saveTask(save);
     this.router.navigate(['/task-list']);

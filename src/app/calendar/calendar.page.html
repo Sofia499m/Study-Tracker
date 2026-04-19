@@ -9,14 +9,18 @@
 
 <ion-content [fullscreen]="true">
   <div class="calendar-content">
-  <ion-card class="card high">
-    <h1 class="header">High Priority</h1>
-  <ion-datetime presentation="date" [highlightedDates]="highDates"
-    (ionChange)="onDateChange($event,'high')"></ion-datetime>
+  <ion-card class="priority-card">
+     <ion-card-header>
+    <h1>High Priority</h1>
+    </ion-card-header>
+  <ion-datetime 
+  presentation="date" 
+  [highlightedDates]="highDates"
+  (ionChange)="onDateChange($event,'high')"></ion-datetime>
       <div class="task-section">
         @if (selectedPriority === 'high' && selectedDate) {
             <h4>Due Task</h4>
-            <ion-badge color="danger">
+            <ion-badge>
               {{ taskForSelectedDate.length }} task{{ taskForSelectedDate.length !== 1 ? 's' : '' }}
             </ion-badge>
             @for (task of taskForSelectedDate; track task.id) {
@@ -30,19 +34,21 @@
               <p class="no-tasks">No tasks this day</p>
             }
           }@else{
-            <p>Tap day to see Tasks</p>
+            <p class="tap-hint">Tap day to see Tasks</p>
           }
         </div>
   </ion-card>
 
-  <ion-card class="card medium">
+  <ion-card class="calendar-content">
     <h1 class="header">Medium Priority</h1>
-    <ion-datetime presentation="date" [highlightedDates]="mediumDates"
+    <ion-datetime 
+    presentation="date" 
+    [highlightedDates]="mediumDates"
     (ionChange)="onDateChange($event,'medium')"></ion-datetime>
-    <div>
+    <div task-section>
       @if (selectedPriority === 'medium' && selectedDate) {
           <h4>Due Task</h4>
-          <ion-badge color="warning">
+          <ion-badge>
             {{ taskForSelectedDate.length }} task{{ taskForSelectedDate.length !== 1 ? 's' : '' }}
           </ion-badge>
           @for (task of taskForSelectedDate; track task.id) {
@@ -56,19 +62,21 @@
             <p class="no-tasks">No tasks this day</p>
           }
         }@else{
-          <p>Tap day to see Tasks</p>
+          <p class="tap-hint">Tap day to see Tasks</p>
         }
       </div>
   </ion-card>
 
-  <ion-card class="card low">
+  <ion-card class="calendar-content">
     <h1 class="header">Low Priority</h1>
-  <ion-datetime presentation="date" [highlightedDates]="lowDates"
+  <ion-datetime 
+  presentation="date" 
+  [highlightedDates]="lowDates"
   (ionChange)="onDateChange($event,'low')"></ion-datetime>
-  <div>
+  <div task-section>
     @if (selectedPriority === 'low' && selectedDate) {
         <h4>Due Task</h4>
-        <ion-badge color="success">
+        <ion-badge>
           {{ taskForSelectedDate.length }} task{{ taskForSelectedDate.length !== 1 ? 's' : '' }}
         </ion-badge>
         @for (task of taskForSelectedDate; track task.id) {
@@ -82,7 +90,7 @@
           <p class="no-tasks">No tasks this day</p>
         }
       }@else{
-        <p>Tap day to see Tasks</p>
+        <p class="tap-hint">Tap day to see Tasks</p>
       }
     </div>
   </ion-card>

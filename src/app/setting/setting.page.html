@@ -1,13 +1,51 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>Setting</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Setting</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Apprarience</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>
+        <h2>Change Mode</h2>
+        <p>Switch between light and dark theme</p>
+      </ion-label>
+      <ion-toggle [(ngModel)]="isDarkMode" (ionChange)="onThemeChange()"></ion-toggle>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Notifications</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>
+        <h2>Enable Notifications</h2>
+        <p>Get reminded about your deadlines</p>
+      </ion-label>
+      <ion-toggle [(ngModel)]="notificationsEnabled" (ionChange)="onNotificationToggled()"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>Remind me before</h2>
+        <p>How early to notify you</p>
+      </ion-label>
+      <ion-select [(ngModel)]=" reminderTime" (ionChnage)="onReminderChange()" placeholder="Select">
+        <ion-select-option [value]="1">1 Hour before</ion-select-option>
+        <ion-select-option [value]="3">3 Hour before</ion-select-option>
+        <ion-select-option [value]="24">1 day before</ion-select-option>
+        <ion-select-option [value]="48">2 days before</ion-select-option>
+        <ion-select-option [value]="72">3 days before</ion-select-option>
+        <ion-select-option [value]="168">1 week before</ion-select-option>
+        <ion-select-option [value]="336">2 weeks before</ion-select-option>
+        <ion-select-option [value]="720">1 month before</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
 </ion-content>

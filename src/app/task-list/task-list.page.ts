@@ -50,6 +50,9 @@ export class TaskListPage{
   
   async stepToggle(task: StudyTask) {
     await this.taskService.saveTask(task);
+    setTimeout(async () => {
+      await this.taskService.deleteTask(task.id);
+    }, 500);
   }
   priorityColor(priority: string): string {
     switch (priority) {

@@ -27,8 +27,17 @@
           <ion-badge slot="end" [color]="priorityColor(task.priority)">
             {{ task.priority }}
           </ion-badge>
-          <ion-icon slot="end" [name]="expandedId === task.id ? 'chevron-up-outline' : 'chevron-down-outline'">
-          </ion-icon>
+          @if (task.steps && task.steps.length > 0) {
+            <ion-icon slot="end" [name]="expandedId === task.id ? 'chevron-up-outline' : 'chevron-down-outline'">
+            </ion-icon>
+          } @else {
+            <!-- show checkbox if no steps -->
+            <ion-checkbox slot="end" 
+              [(ngModel)]="task.completed" 
+              (ionChange)="stepToggle(task)"
+              (click)="$event.stopPropagation()">
+            </ion-checkbox>
+          }
           <ion-icon name="pencil-outline" slot="end" (click)="goToEdit(task); $event.stopPropagation()">
           </ion-icon>
           <ion-icon name="trash-outline" slot="end" (click)="deleteTask(task.id); $event.stopPropagation()">

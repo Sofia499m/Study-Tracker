@@ -6,6 +6,7 @@ export interface StudyTask {
   title: string;
   dueDate: string;
   dedication: string;
+  completed: boolean;
   priority: 'low' | 'medium' | 'high';
   steps: Steps [];
 }
