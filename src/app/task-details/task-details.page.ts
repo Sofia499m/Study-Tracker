@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonButton, IonInput, IonItem, IonList, IonCardContent, IonDatetime, IonText, IonLabel, IonSelect, IonSelectOption, IonModal, IonIcon } from '@ionic/angular/standalone';
-import { TaskService, Task, Steps } from '../Services/task-service';
+import { TaskService, StudyTask, Steps } from '../Services/task-service';
 import { Router, ActivatedRoute } from '@angular/router'
 import { addIcons } from 'ionicons';
 import { trashOutline, pencilOutline, checkmarkCircle, add } from 'ionicons/icons';
@@ -70,7 +70,7 @@ export class TaskDetailsPage implements OnInit {
       });
   }
   async save(){
-    const save: Task = {
+    const save: StudyTask = {
       id: this.isEditMode && this.taskId ? this.taskId : Date.now(),
       title: this.task.title,
       dedication: this.task.dedication,

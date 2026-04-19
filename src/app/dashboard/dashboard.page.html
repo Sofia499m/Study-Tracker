@@ -8,9 +8,61 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card color="primary">
+    <ion-card-content class="wish-card">
+    <ion-icon name="sunny-outline" class="wish-icon"></ion-icon>
+      <p class="wish-text">{{ wish }}</p>
+    </ion-card-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Overview</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <h2>{{ totalTask }}</h2>
+            <p>Total</p>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <h2>{{ completedTask }}</h2>
+            <p>Completed</p>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <h2>{{ dueTodayTask.length }}</h2>
+            <p>Due Today</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+    </ion-card>
+  </ion-card>
+    <ion-card>
+    <ion-card-header>
+      <ion-card-title>Upcoming Tasks</ion-card-title>
+    </ion-card-header>
+    <ion-list lines="full">
+        @for (task of upcomingTask; track task.id) {
+        <ion-item>
+          <ion-label>
+            <h2>{{ task.title }}</h2>
+            <p>{{ task.dedication }} |  <ion-text [color]="getDueColor(task.dueDate)">{{ getDueLabel(task.dueDate) }}</ion-text>
+          </ion-label>
+          <ion-badge slot="end" [color]="getPriorityColor(task.priority)">
+            {{ task.priority }}
+          </ion-badge>
+        </ion-item>
+      } @empty {
+        <ion-item lines="none">
+          <ion-label class="ion-text-center">
+            <ion-icon name="checkmark-circle-outline" size="large" color="success"></ion-icon>
+            <p>No upcoming tasks! You're all caught up 🎉</p>
+            <ion-button [routerLink]="['/task-list']" expand="block">
+              Add a Task
+            </ion-button>
+          </ion-label>
+        </ion-item>
+      }
+    </ion-list>
+    </ion-card>
 </ion-content>

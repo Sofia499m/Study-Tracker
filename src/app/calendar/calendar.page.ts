@@ -2,7 +2,7 @@ import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonDatetime, IonLabel, IonItem, IonBadge, IonCard, IonButtons, IonMenuButton } from '@ionic/angular/standalone';
-import { TaskService, Task } from '../Services/task-service';
+import { TaskService, StudyTask } from '../Services/task-service';
 import { Router } from '@angular/router'
 @Component({
   selector: 'app-calendar',
@@ -12,9 +12,9 @@ import { Router } from '@angular/router'
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonDatetime, IonLabel, IonItem, IonBadge, IonCard, IonButtons, IonMenuButton]
 })
 export class CalendarPage{
-  tasks : Task[] = [];
+  tasks : StudyTask[] = [];
   selectedDate: string = '';
-  taskForSelectedDate: Task [] = [];
+  taskForSelectedDate: StudyTask [] = [];
   selectedPriority: string = '';
   highDates: any[] = [];
   mediumDates: any[] = [];

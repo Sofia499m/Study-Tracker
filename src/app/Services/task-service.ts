@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject} from 'rxjs';
 import { Storage } from '@ionic/storage-angular'
-export interface Task {
+export interface StudyTask {
   id: number;
   title: string;
   dueDate: string;
@@ -19,7 +19,7 @@ export interface Steps{
 })
 export class TaskService {
 
-  private taskSubject = new BehaviorSubject<Task[]>([]);
+  private taskSubject = new BehaviorSubject<StudyTask[]>([]);
   Tasks$ = this.taskSubject.asObservable();
 
   constructor(private storage: Storage){
@@ -27,19 +27,19 @@ export class TaskService {
   }
 
   private async load() {
-    const tasks: Task[] = (await this.storage.get('tasks')) || [];
+    const tasks: StudyTask[] = (await this.storage.get('tasks')) || [];
     this.taskSubject.next(tasks);
   }
 
-  async getTaskByIdFromStorage(id: number): Promise<Task | undefined>{
-    const tasks: Task[] = (await this.storage.get('tasks')) || [];
+  async getTaskByIdFromStorage(id: number): Promise<StudyTask | undefined>{
+    const tasks: StudyTask[] = (await this.storage.get('tasks')) || [];
     return tasks.find(t => t.id === id);
   }
-  getTaskById(id: number): Task | undefined {
+  getTaskById(id: number): StudyTask | undefined {
     return this.taskSubject.value.find(t => t.id === id); 
   }
 
-  async saveTask (task: Task): Promise<void> {
+  async saveTask (task: StudyTask): Promise<void> {
     const tasks = [...this.taskSubject.value];
     const index = tasks.findIndex(t => t.id === task.id);
     index > -1 ? (tasks[index] = task) : tasks.push(task);
