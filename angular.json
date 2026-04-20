@@ -33,7 +33,23 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
-              }
+              },
+              {
+              "glob": "**/*.svg",
+              "input": "node_modules/ionicons/dist/ionicons/svg",
+              "output": "./svg"
+              },
+              {
+                "glob": "manifest.webmanifest",
+                "input": "public",
+                "output": "./"
+                },
+                {
+                "glob": "**/*",
+                "input": "public/icons",
+                "output": "./icons"
+                }
+              
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": [],
@@ -59,7 +75,8 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,
