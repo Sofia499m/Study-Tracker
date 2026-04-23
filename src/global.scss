@@ -67,3 +67,24 @@ html.dark {
   --ion-color-step-900: #dadada;
   --ion-color-step-950: #e6e6e6;
 }
+.dark {
+  ion-datetime {
+    --background: #1e1e1e;
+    --background-rgb: 30, 30, 30;
+    color: white;
+  }
+
+  ion-datetime-button::part(native) {
+    background: #1e1e1e;
+    color: white;
+  }
+
+  // force calendar header and days
+  .calendar-day {
+    color: white !important;
+  }
+
+  .calendar-month-year {
+    color: white !important;
+  }
+}
