@@ -7,20 +7,34 @@ import { StudyTask } from './task-service';
   providedIn: 'root',
 })
 export class NotificationService {
-
   constructor(private storage: Storage){
     this.storage.create();
   }
-
   async scheduleNotification(task: StudyTask) {
     const permission = await LocalNotifications.requestPermissions();
-    if (permission.display !== 'granted') {
-      console.log('Notification permission denied');
-      return; // stop if no permission
-    }
+    console.log('Permission status:', permission.display);
+
     const reminderTime = await this.storage.get('reminderTime') || 24;
+    console.log('Reminder time:', reminderTime); 
+
+    const notificationTime = await this.storage.get('notificationTime') || '09:00';
+    const [hour, minute] = notificationTime.split(':').map(Number);
+    console.log('User chosen time:', hour, minute);
+
     const dueDate = new Date (task.dueDate);
     const notifyAt = new Date(dueDate.getTime() - reminderTime * 60 * 60 * 1000);
+
+    notifyAt.setHours(hour, minute, 0, 0);
+    console.log('Notify at:', notifyAt);
+    console.log('Current time:', new Date());
+
+    console.log('Notify at:', notifyAt); 
+    console.log('Current time:', new Date()); 
+
+    if(notifyAt <= new Date()){
+      console.log('Notification time is in the past!'); 
+      return;
+    }
 
     await LocalNotifications.schedule({
       notifications: [{
@@ -30,6 +44,7 @@ export class NotificationService {
         schedule: {at: notifyAt}
       }]
     });
+    console.log('Notification scheduled for:', task.title, 'at', notifyAt);
    }
 
    async cancelNotification(taskId: number) {

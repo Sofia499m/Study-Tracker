@@ -37,14 +37,30 @@
         <p>How early to notify you</p>
       </ion-label>
       <ion-select [(ngModel)]=" reminderTime" (ionChnage)="onReminderChange()" placeholder="Select">
-        <ion-select-option [value]="1">1 Hour before</ion-select-option>
-        <ion-select-option [value]="3">3 Hour before</ion-select-option>
         <ion-select-option [value]="24">1 day before</ion-select-option>
         <ion-select-option [value]="48">2 days before</ion-select-option>
         <ion-select-option [value]="72">3 days before</ion-select-option>
         <ion-select-option [value]="168">1 week before</ion-select-option>
         <ion-select-option [value]="336">2 weeks before</ion-select-option>
         <ion-select-option [value]="720">1 month before</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>Notification Time</h2>
+        <p>at what time do youwant yout notifications</p>
+    </ion-label>
+      <ion-select [(ngModel)]=" notificationTime" (ionChnage)="onNotificationTimeChange()" placeholder="Select">
+        <ion-select-option value="07:00">7:00 AM</ion-select-option>
+        <ion-select-option value="08:00">8:00 AM</ion-select-option>
+        <ion-select-option value="09:00">9:00 AM</ion-select-option>
+        <ion-select-option value="10:00">10:00 AM</ion-select-option>
+        <ion-select-option value="12:00">12:00 PM</ion-select-option>
+        <ion-select-option value="14:00">2:00 PM</ion-select-option>
+        <ion-select-option value="16:00">4:00 PM</ion-select-option>
+        <ion-select-option value="18:00">6:00 PM</ion-select-option>
+        <ion-select-option value="20:00">8:00 PM</ion-select-option>
+        <ion-select-option value="22:00">10:00 PM</ion-select-option>
       </ion-select>
     </ion-item>
   </ion-list>

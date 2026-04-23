@@ -14,6 +14,7 @@ import { firstValueFrom } from 'rxjs';
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonMenuButton, IonItem, IonLabel, IonToggle, IonSelect, IonSelectOption, IonListHeader, IonList ]
 })
 export class SettingPage {
+  notificationTime: string = '09:00';
   reminderTime: number = 24;
   isDarkMode: boolean =false;
   notificationsEnabled: boolean = false;
@@ -28,15 +29,23 @@ export class SettingPage {
     this.reminderTime = await this.storage.get('reminderTime') || 24;
     this.isDarkMode = await this.storage.get('darkMode') || false;
     document.documentElement.classList.toggle('dark', this.isDarkMode);
-    this.notificationsEnabled = await this.storage.get('notificationsEnabled')
+    this.notificationsEnabled = await this.storage.get('notificationsEnabled');
   }
 
+  async onNotificationTimeChange(){
+    await this.storage.set('notificationTime', this.notificationTime);
+    console.log('Notification time set to:', this.notificationTime);
+
+    const tasks = await firstValueFrom(this.taskService.Tasks$);
+    await this.notificationService.rescheduleAll(tasks, this.reminderTime);
+  }
   async onReminderChange(){
     const tasks = await firstValueFrom(this.taskService.Tasks$);
     await this.notificationService.rescheduleAll(tasks, this.reminderTime);
   }
   async onThemeChange(){
     console.log('toggle changed, isDarkMode:', this.isDarkMode);
+    document.body.classList.toggle('dark', this.isDarkMode);
     document.documentElement.classList.toggle('dark', this.isDarkMode);
     await this.storage.set('darkMode', this.isDarkMode);
   }
