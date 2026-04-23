@@ -22,14 +22,15 @@ export class SettingPage {
     private storage: Storage, 
     private taskService: TaskService, 
     private notificationService: NotificationService) { 
-      this.storage.create();
     }
 
   async ionViewWillEnter(){
+    await this.storage.create();
     this.reminderTime = await this.storage.get('reminderTime') || 24;
     this.isDarkMode = await this.storage.get('darkMode') || false;
     document.documentElement.classList.toggle('dark', this.isDarkMode);
     this.notificationsEnabled = await this.storage.get('notificationsEnabled');
+    this.notificationTime = await this.storage.get('notificationTime') || '09:00';
   }
 
   async onNotificationTimeChange(){

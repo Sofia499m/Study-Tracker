@@ -36,7 +36,7 @@
         <h2>Remind me before</h2>
         <p>How early to notify you</p>
       </ion-label>
-      <ion-select [(ngModel)]=" reminderTime" (ionChnage)="onReminderChange()" placeholder="Select">
+      <ion-select [(ngModel)]=" reminderTime" (ionChange)="onReminderChange()" placeholder="Select">
         <ion-select-option [value]="24">1 day before</ion-select-option>
         <ion-select-option [value]="48">2 days before</ion-select-option>
         <ion-select-option [value]="72">3 days before</ion-select-option>
@@ -50,7 +50,7 @@
         <h2>Notification Time</h2>
         <p>at what time do youwant yout notifications</p>
     </ion-label>
-      <ion-select [(ngModel)]=" notificationTime" (ionChnage)="onNotificationTimeChange()" placeholder="Select">
+      <ion-select [(ngModel)]=" notificationTime" (ionChange)="onNotificationTimeChange()" placeholder="Select">
         <ion-select-option value="07:00">7:00 AM</ion-select-option>
         <ion-select-option value="08:00">8:00 AM</ion-select-option>
         <ion-select-option value="09:00">9:00 AM</ion-select-option>

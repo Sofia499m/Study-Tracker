@@ -8,16 +8,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addTask()">
+      <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   <ion-card>
     <div>
       <ion-list>
       @for (task of tasks; track task.id) {
-        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-          <ion-fab-button (click)="addTask()">
-            <ion-icon name="add"></ion-icon>
-            </ion-fab-button>
-          </ion-fab>
-
         <ion-item (click)="stepToggleExpand(task.id)" button detail="false">
           <ion-label>
             <h2>{{task.title}}</h2>
