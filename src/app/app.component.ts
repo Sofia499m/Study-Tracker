@@ -34,5 +34,14 @@ export class AppComponent implements OnInit{
     if(permission.display === 'denied'){
       console.log('Permission denied, opening settings...');
     }
+    await this.storage.create();
+    const isDarkMode = await this.storage.get('darkMode') || false;
+
+    document.documentElement.classList.toggle('dark', isDarkMode);
+    document.body.classList.toggle('dark', isDarkMode);
+    
+    if(isDarkMode){
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
 }
 }
