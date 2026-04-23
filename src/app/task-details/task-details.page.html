@@ -34,7 +34,8 @@
         <ion-datetime
           presentation="date"
           [value]="task.dueDate"
-          (ionChange)="onDateChange($event)">
+          (ionChange)="onDateChange($event)"
+          [class.dark]="isDarkMode">
         </ion-datetime>
       }
 

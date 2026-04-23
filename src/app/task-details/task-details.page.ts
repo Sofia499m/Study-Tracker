@@ -6,6 +6,7 @@ import { TaskService, StudyTask, Steps } from '../Services/task-service';
 import { Router, ActivatedRoute } from '@angular/router'
 import { addIcons } from 'ionicons';
 import { trashOutline, pencilOutline, checkmarkCircle, add } from 'ionicons/icons';
+import { Storage } from '@ionic/storage-angular';
 @Component({
   selector: 'app-task-details',
   templateUrl: './task-details.page.html',
@@ -14,7 +15,7 @@ import { trashOutline, pencilOutline, checkmarkCircle, add } from 'ionicons/icon
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonButton, IonInput, IonItem, IonList, IonCardContent, IonDatetime, IonText, IonLabel, IonSelect, IonSelectOption, IonModal, IonIcon]
 })
 export class TaskDetailsPage implements OnInit {
-
+  isDarkMode: boolean = false;
   isEditMode = false;
   taskId: number | null = null;
   newStepsDescription = '';
@@ -32,7 +33,8 @@ export class TaskDetailsPage implements OnInit {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private taskService: TaskService) {
+    private taskService: TaskService,
+    private storage: Storage) {
       addIcons({add,trashOutline,pencilOutline,checkmarkCircle});
   }
   showNewToDoInput = false;
@@ -69,6 +71,9 @@ export class TaskDetailsPage implements OnInit {
         }
       });
   }
+  async ionViewWillEnter(){
+    this.isDarkMode = await this.storage.get('darkMode') || false;
+}
   async save(){
     const save: StudyTask = {
       id: this.isEditMode && this.taskId ? this.taskId : Date.now(),
