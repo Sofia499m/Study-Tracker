@@ -28,7 +28,7 @@ export class SettingPage {
     this.reminderTime = await this.storage.get('reminderTime') || 24;
     this.isDarkMode = await this.storage.get('darkMode') || false;
     document.documentElement.classList.toggle('dark', this.isDarkMode);
-    this.notificationsEnabled = await this.storage.get('notificationEnabled')
+    this.notificationsEnabled = await this.storage.get('notificationsEnabled')
   }
 
   async onReminderChange(){
