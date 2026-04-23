@@ -28,6 +28,12 @@ export class AppComponent implements OnInit{
     addIcons({ gridOutline, gridSharp, listOutline, listSharp, calendarOutline, calendarSharp, settingsOutline, settingsSharp  });
   }
   async ngOnInit() {
+    const store = await this.storage.create();
+    const darkMode = await store.get('darkMode') ?? false;
+
+    document.documentElement.classList.toggle('dark', darkMode);
+    document.body.classList.toggle('dark', darkMode);
+
     const permission = await LocalNotifications.requestPermissions();
     console.log('Permission status:', permission.display);
     
