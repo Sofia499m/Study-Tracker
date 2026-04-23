@@ -6,6 +6,8 @@ import { NotificationService } from '../Services/notification-service';
 import { TaskService } from '../Services/task-service';
 import { Storage } from '@ionic/storage-angular';
 import { firstValueFrom } from 'rxjs';
+import { LocalNotifications } from '@capacitor/local-notifications';
+// import { Capacitor } from '@capacitor/core';
 @Component({
   selector: 'app-setting',
   templateUrl: './setting.page.html',
@@ -18,6 +20,9 @@ export class SettingPage {
   reminderTime: number = 24;
   isDarkMode: boolean =false;
   notificationsEnabled: boolean = false;
+
+  private isLoading = true;
+
   constructor(
     private storage: Storage, 
     private taskService: TaskService, 
@@ -25,24 +30,32 @@ export class SettingPage {
     }
 
   async ionViewWillEnter(){
-    await this.storage.create();
-    this.reminderTime = await this.storage.get('reminderTime') || 24;
-    this.isDarkMode = await this.storage.get('darkMode') || false;
+    this.isLoading = true;
+
+    const store = await this.storage.create();
+    this.reminderTime = (await store.get('reminderTime')) ?? 24;
+    this.notificationTime = (await store.get('notificationTime')) ?? '09:00';
+    this.isDarkMode = (await store.get('darkMode')) ?? false;
+    this.notificationsEnabled = (await store.get('notificationsEnabled')) ?? false;
+
     document.documentElement.classList.toggle('dark', this.isDarkMode);
-    this.notificationsEnabled = await this.storage.get('notificationsEnabled');
-    this.notificationTime = await this.storage.get('notificationTime') || '09:00';
+
+    setTimeout(() => { this.isLoading = false; }, 300);
   }
 
-  async onNotificationTimeChange(){
-    await this.storage.set('notificationTime', this.notificationTime);
-    console.log('Notification time set to:', this.notificationTime);
-
+  async onNotificationTimeChange() {
+    if (this.isLoading) return;
+    const store = await this.storage.create();
+    await store.set('notificationTime', this.notificationTime); 
     const tasks = await firstValueFrom(this.taskService.Tasks$);
-    await this.notificationService.rescheduleAll(tasks, this.reminderTime);
+    await this.notificationService.rescheduleAll(tasks);        
   }
-  async onReminderChange(){
+  async onReminderChange() {
+    if (this.isLoading) return;
+    const store = await this.storage.create();
+    await store.set('reminderTime', this.reminderTime); 
     const tasks = await firstValueFrom(this.taskService.Tasks$);
-    await this.notificationService.rescheduleAll(tasks, this.reminderTime);
+    await this.notificationService.rescheduleAll(tasks);
   }
   async onThemeChange(){
     console.log('toggle changed, isDarkMode:', this.isDarkMode);
@@ -53,16 +66,19 @@ export class SettingPage {
   async onNotificationToggled(){
     await this.storage.set('notificationsEnabled', this.notificationsEnabled);
 
-    if(!this.notificationsEnabled){
-      const tasks = await firstValueFrom(this.taskService.Tasks$);
-      for (const task of tasks){
-        await this.notificationService.cancelNotification(task.id);
+    const permission = await LocalNotifications.requestPermissions();
+    if (permission.display === 'granted') {
+      if(this.notificationsEnabled){
+        const tasks = await firstValueFrom(this.taskService.Tasks$);
+        for(const task of tasks){
+          await this.notificationService.scheduleNotification(task);
+        }
+      }else{
+        const tasks = await firstValueFrom(this.taskService.Tasks$);
+        for (const task of tasks){
+          await this.notificationService.cancelNotification(task.id);
+        }
       }
-    }else{
-      const tasks = await firstValueFrom(this.taskService.Tasks$);
-      for(const task of tasks){
-        await this.notificationService.scheduleNotification(task);
-      }
-    }
+    } 
   }
 }

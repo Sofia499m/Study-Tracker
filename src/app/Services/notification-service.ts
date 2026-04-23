@@ -7,57 +7,65 @@ import { StudyTask } from './task-service';
   providedIn: 'root',
 })
 export class NotificationService {
+  private storageReady: Promise<Storage>;
   constructor(private storage: Storage){
-    this.storage.create();
+    this.storageReady = this.storage.create(); 
+    this.setupForegroundNotifications();
   }
+
+  async setupForegroundNotifications() {
+    await LocalNotifications.registerActionTypes({
+      types: [{ id: 'CHAT_MSG', actions: [] }] 
+    });
+  }
+
   async scheduleNotification(task: StudyTask) {
-    const permission = await LocalNotifications.requestPermissions();
-    console.log('Permission status:', permission.display);
+    const store = await this.storageReady;
 
-    const reminderTime = await this.storage.get('reminderTime') || 24;
-    console.log('Reminder time:', reminderTime); 
+    const notificationsEnabled = await store.get('notificationsEnabled');
+    if (!notificationsEnabled) return;
 
-    const notificationTime = await this.storage.get('notificationTime') || '09:00';
+    const reminderTime: number = (await store.get('reminderTime')) ?? 24;
+    const notificationTime: string = (await store.get('notificationTime')) ?? '09:00';
     const [hour, minute] = notificationTime.split(':').map(Number);
-    console.log('User chosen time:', hour, minute);
 
     const dueDate = new Date (task.dueDate);
-    const notifyAt = new Date(dueDate.getTime() - reminderTime * 60 * 60 * 1000);
 
-    notifyAt.setHours(hour, minute, 0, 0);
-    console.log('Notify at:', notifyAt);
-    console.log('Current time:', new Date());
+    const notifyDate = new Date(dueDate);
+    notifyDate.setDate(dueDate.getDate() - Math.round(reminderTime / 24));
+    notifyDate.setHours(hour, minute, 0, 0);
 
-    console.log('Notify at:', notifyAt); 
-    console.log('Current time:', new Date()); 
+    console.log('Due date:', dueDate);
+    console.log('Notify at:', notifyDate);
 
-    if(notifyAt <= new Date()){
-      console.log('Notification time is in the past!'); 
+    if (notifyDate <= new Date()) {
+      console.log('In the past, skipping:', task.title);
       return;
     }
+
+    console.log("task id: "+task.id)
 
     await LocalNotifications.schedule({
       notifications: [{
         id: task.id,
         title: 'Task Due Soon',
-        body: `${task.title} is due soon!`,
-        schedule: {at: notifyAt}
+        body: `"${task.title}" is due soon!`,
+        schedule: { at: notifyDate },
       }]
     });
-    console.log('Notification scheduled for:', task.title, 'at', notifyAt);
+    console.log('Scheduled:', task.title, 'at', notifyDate);
    }
 
-   async cancelNotification(taskId: number) {
+   async cancelNotification(taskId: number): Promise<void> {
     await LocalNotifications.cancel({
       notifications: [{id: taskId}]
     });
    }
 
-   async rescheduleAll(tasks: StudyTask[], reminderTime: number){
+   async rescheduleAll(tasks: StudyTask[]): Promise<void>{
      for(const task of tasks){
       await this.cancelNotification(task.id);
      }
-     await this.storage.set(`reminderTime`,reminderTime);
      for(const task of tasks){
       await this.scheduleNotification(task);
      }
