@@ -33,18 +33,11 @@
  */
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */ 
+@import "@ionic/angular/css/palettes/dark.class.css";  
 /* @import '@ionic/angular/css/palettes/dark.system.css'; */
 
-body.dark, html.dark {
-  --ion-background-color: #121212;
-  --ion-text-color: #ffffff;
-  --ion-card-background: #1e1e1e;
-  --ion-item-background: #1e1e1e;
-  --ion-toolbar-background: #1e1e1e;
-}
 html.dark {
-  --ion-text-color: #ffffff;
+  --ion-text-color: #c4c4c4;
   --ion-background-color: #121212;
   --ion-card-background: #1e1e1e;
   --ion-item-background: #1e1e1e;
@@ -67,3 +60,23 @@ html.dark {
   --ion-color-step-900: #dadada;
   --ion-color-step-950: #e6e6e6;
 }
+// html.dark {
+//   /* This is the magic line for iOS calendars/pickers */
+//   color-scheme: dark; 
+
+//   --ion-text-color: #ffffff;
+//   --ion-background-color: #121212;
+//   --ion-card-background: #1e1e1e;
+//   --ion-item-background: #1e1e1e;
+//   --ion-toolbar-background: #1e1e1e;
+//   --ion-tab-bar-background: #1e1e1e;
+
+//   /* Explicitly target ion-datetime parts for dark mode */
+//   ion-datetime {
+//     --background: #1e1e1e;
+//     --color: #ffffff;
+//     --title-color: #ffffff;
+//     background: #1e1e1e;
+//     color: #ffffff;
+//   }
+// }
