@@ -13,6 +13,11 @@ export class NotificationService {
   }
 
   async scheduleNotification(task: StudyTask) {
+    const permission = await LocalNotifications.requestPermissions();
+    if (permission.display !== 'granted') {
+      console.log('Notification permission denied');
+      return; // stop if no permission
+    }
     const reminderTime = await this.storage.get('reminderTime') || 24;
     const dueDate = new Date (task.dueDate);
     const notifyAt = new Date(dueDate.getTime() - reminderTime * 60 * 60 * 1000);

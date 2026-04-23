@@ -1,17 +1,18 @@
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { gridOutline, gridSharp, listOutline, listSharp, calendarOutline, calendarSharp, settingsOutline, settingsSharp  } from 'ionicons/icons';
 import { Storage } from '@ionic/storage-angular';
+import { LocalNotifications } from '@capacitor/local-notifications';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   imports: [RouterLink, RouterLinkActive, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet],
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
   public appPages = [
     { title: 'Daskboard', url: '/dashboard', icon: 'grid' },
@@ -26,4 +27,12 @@ export class AppComponent {
     });
     addIcons({ gridOutline, gridSharp, listOutline, listSharp, calendarOutline, calendarSharp, settingsOutline, settingsSharp  });
   }
+  async ngOnInit() {
+    const permission = await LocalNotifications.requestPermissions();
+    console.log('Permission status:', permission.display);
+    
+    if(permission.display === 'denied'){
+      console.log('Permission denied, opening settings...');
+    }
+}
 }
