@@ -67,16 +67,3 @@ html.dark {
   --ion-color-step-900: #dadada;
   --ion-color-step-950: #e6e6e6;
 }
-html.dark ion-datetime {
-  --background: #121212 !important;
-  --background-rgb: 18, 18, 18 !important;
-  color: #ffffff !important;
-
-  .calendar-day {
-    color: #ffffff !important;
-  }
-
-  button {
-    color: #ffffff !important;
-  }
-}

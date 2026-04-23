@@ -34,5 +34,8 @@ export class AppComponent implements OnInit{
     if(permission.display === 'denied'){
       console.log('Permission denied, opening settings...');
     }
-  }
+    await this.storage.create();
+    const isDarkMode = await this.storage.get('darkMode') || false;
+
+}
 }
